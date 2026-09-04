@@ -37,7 +37,7 @@
         </div>
         <div class="top-actions">
           <button class="btn btn-light" id="exportBtn">⬇ Export Data</button>
-          <button class="btn btn-primary" id="quickAddBtn">＋ Tambah Buku</button>
+          <div class="admin-status" id="adminStatus"><span class="admin-dot" id="adminDot"></span><span id="adminStatusText">Mode Tamu</span></div><button class="btn btn-primary" id="adminLoginBtn">🔐 Login Admin</button><button class="btn btn-danger-soft" id="adminLogoutBtn" style="display:none">Keluar Admin</button><button class="btn btn-primary" id="quickAddBtn">＋ Tambah Buku</button>
         </div>
       </header>
 
@@ -65,13 +65,13 @@
         </section>
 
         <section id="booksPage" class="page">
-          <div class="section-head"><div><h2>Data Buku</h2><p>Kelola seluruh koleksi buku perpustakaan.</p></div><button class="btn btn-primary" id="addBookBtn">＋ Tambah Buku</button></div>
+          <div class="section-head"><div><h2>Data Buku</h2><p>Lihat koleksi buku. Penambahan, edit, dan hapus hanya untuk admin.</p></div><button class="btn btn-primary admin-only" id="addBookBtn">＋ Tambah Buku</button></div>
           <div class="toolbar"><div class="search-box"><span>⌕</span><input id="bookSearch" placeholder="Cari judul, penulis, ISBN..." /></div><select id="bookCategoryFilter"><option value="">Semua kategori</option></select></div>
           <div class="panel"><div id="booksTable" class="table-wrap"></div></div>
         </section>
 
         <section id="loansPage" class="page">
-          <div class="section-head"><div><h2>Peminjaman</h2><p>Catat buku yang sedang dipinjam siswa.</p></div><button class="btn btn-primary" id="addLoanBtn">＋ Catat Peminjaman</button></div>
+          <div class="section-head"><div><h2>Peminjaman</h2><p>Lihat transaksi peminjaman. Pencatatan dan pengelolaan hanya untuk admin.</p></div><button class="btn btn-primary admin-only" id="addLoanBtn">＋ Catat Peminjaman</button></div>
           <div class="toolbar"><div class="search-box"><span>⌕</span><input id="loanSearch" placeholder="Cari nama siswa atau buku..." /></div><select id="loanStatusFilter"><option value="">Semua status</option><option value="active">Dipinjam</option><option value="returned">Dikembalikan</option><option value="late">Terlambat</option></select></div>
           <div class="panel"><div id="loansTable" class="table-wrap"></div></div>
         </section>
