@@ -26,9 +26,12 @@ function syncAdminUI(){
   refresh();
 }
 function showLogin(){
-  showModal('Login Admin','Masuk untuk mengelola data perpustakaan.',`<form id="loginForm"><div class="form-grid"><div class="form-field full"><label>Username</label><input name="username" autocomplete="username" required placeholder="Username admin"></div><div class="form-field full"><label>Password</label><input name="password" type="password" autocomplete="current-password" required placeholder="Password admin"></div></div><div class="login-note">Akun admin tersimpan di aplikasi offline ini. Cocok untuk penggunaan lokal sederhana, bukan keamanan tingkat produksi.</div><div class="modal-actions"><button type="button" class="btn btn-light" id="cancelModal">Batal</button><button class="btn btn-primary">Login</button></div></form>`);
-  $('#loginForm').onsubmit=e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));if(data.username===ADMIN_USER && data.password===ADMIN_PASS){isAdmin=true;sessionStorage.setItem('perpusku_admin','1');closeModal();syncAdminUI();toast('Login admin berhasil.')}else toast('Username atau password salah.')};
-  $('#cancelModal').onclick=closeModal;
+  showModal('Login Admin','Masuk untuk mengelola data perpustakaan.',`<form id="loginForm" autocomplete="off"><div class="form-grid"><div class="form-field full"><label>Username</label><input id="adminUsername" name="username" type="text" autocomplete="off" required placeholder="Masukkan username"></div><div class="form-field full"><label>Password</label><input id="adminPassword" name="password" type="password" autocomplete="new-password" required placeholder="Masukkan password"></div></div><div class="login-note">Gunakan akun admin yang sudah ditentukan untuk mengakses fitur pengelolaan.</div><div class="modal-actions"><button type="button" class="btn btn-light" id="cancelModal">Batal</button><button type="submit" class="btn btn-primary">Masuk sebagai Admin</button></div></form>`);
+  const form=$('#loginForm');
+  const user=$('#adminUsername');
+  if(user) user.focus();
+  if(form) form.onsubmit=e=>{e.preventDefault();const data=Object.fromEntries(new FormData(form));if(String(data.username).trim()===ADMIN_USER && String(data.password)===ADMIN_PASS){isAdmin=true;sessionStorage.setItem('perpusku_admin','1');closeModal();syncAdminUI();toast('Login admin berhasil.');}else{toast('Username atau password salah.');const pw=$('#adminPassword');if(pw){pw.value='';pw.focus();}}};
+  const cancel=$('#cancelModal'); if(cancel) cancel.onclick=closeModal;
 }
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -62,6 +65,6 @@ document.addEventListener('click',e=>{let eb=e.target.closest('[data-edit-book]'
 $('#exportBtn').onclick=()=>{if(!requireAdmin())return;let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='database-perpustakaan.json';a.click();URL.revokeObjectURL(a.href);toast('Data berhasil diekspor.');};
 syncAdminUI();
 $('#adminLoginBtn').onclick=showLogin;
-$('#sidebarAdminLogin').onclick=showLogin;
+const sidebarAdminLogin=$('#sidebarAdminLogin'); if(sidebarAdminLogin) sidebarAdminLogin.onclick=showLogin;
 $('#adminLogoutBtn').onclick=()=>{isAdmin=false;sessionStorage.removeItem('perpusku_admin');syncAdminUI();toast('Berhasil keluar dari mode admin.')};
 
